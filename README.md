@@ -1,4 +1,10 @@
-# Awesome Arc Alternatives [![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
+<h1 align="center">
+  <img src=".github/banner.svg" alt="Awesome Arc Alternatives" width="640">
+</h1>
+
+<p align="center">
+  <a href="https://awesome.re"><img src="https://awesome.re/badge.svg" alt="Awesome"></a>
+</p>
 
 A curated list of browsers that carry on the ideas of [Arc](https://arc.net): vertical tabs, spaces, a command bar, and a calm interface.
 
