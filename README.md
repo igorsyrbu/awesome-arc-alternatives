@@ -37,6 +37,7 @@ Sorted by name. The [web page](https://igorsyrbu.github.io/awesome-arc-alternati
 | Flecha | Chromium (fork) | MIT | [flecha.dev](https://flecha.dev/) | [lucianodiisouza/flecha-browser](https://github.com/lucianodiisouza/flecha-browser) |
 | Flow | Chromium (Electron) | GPL-3.0 | [flow-browser.com](https://flow-browser.com/) | [MultiboxLabs/flow-browser](https://github.com/MultiboxLabs/flow-browser) |
 | Helium | Chromium | GPL-3.0 | [helium.computer](https://helium.computer/) | [imputnet/helium](https://github.com/imputnet/helium) |
+| Mise | Chromium (Electron) | GPL-3.0 | [rakosn1cek.github.io/Mise-browser](https://rakosn1cek.github.io/Mise-browser) | [Mise-Browser](https://github.com/Rakosn1cek/Mise-browser) |
 | Nook | WebKit | GPL-3.0 | [browsewithnook.com](https://browsewithnook.com/) | [nook-browser/Nook](https://github.com/nook-browser/Nook) |
 | Ora | WebKit | GPL-3.0 | — | [the-ora/browser](https://github.com/the-ora/browser) |
 | Orion | WebKit | Closed | [kagi.com/orion](https://kagi.com/orion/) | — |
