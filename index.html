@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Awesome Arc Alternatives</title>
+    <meta name="description" content="A curated, community-maintained list of Arc browser alternatives. Arc stops working on December 22, 2026." />
+    <meta property="og:title" content="Awesome Arc Alternatives" />
+    <meta property="og:description" content="Arc stops working on December 22, 2026. Here is where to go next." />
+    <link rel="icon" type="image/png" href="/src/assets/logo.png" />
+    <script>
+      // Apply the saved or system theme before paint, so the page never flashes.
+      ;(function () {
+        var t
+        try { t = localStorage.getItem("theme") } catch (e) {}
+        if (t !== "light" && t !== "dark") t = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"
+        document.documentElement.classList.toggle("dark", t === "dark")
+      })()
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500&display=swap" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
