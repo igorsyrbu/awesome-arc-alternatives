@@ -51,6 +51,7 @@ Sorted by name. The [web page](https://igorsyrbu.github.io/awesome-arc-alternati
 | Surf | Chromium (Electron, likely) | Apache-2.0 | [deta.surf](https://deta.surf/) | [deta/surf](https://github.com/deta/surf) |
 | Tangent | Chromium (de-Googled fork) | Unknown | [tangent.place](https://tangent.place/) | — |
 | Vane | WebKit | MIT | [notnaki.github.io/vane](https://notnaki.github.io/vane/) | [notnaki/vane](https://github.com/notnaki/vane) |
+| Xelium | Chromium (fork) | GPL-3.0 | — | [minervanet/xelium-macos](https://github.com/minervanet/xelium-macos) |
 | Yab | WebKit | Closed | [yetanotherbrowser.com](https://yetanotherbrowser.com/) | — |
 | Yalqen | Chromium (Electron) | MIT | [yalqen.com](https://yalqen.com/) | [YSamed/yalqen](https://github.com/YSamed/yalqen) |
 | Zen | Firefox (Gecko) | MPL-2.0 | [zen-browser.app](https://zen-browser.app/) | [zen-browser/desktop](https://github.com/zen-browser/desktop) |
