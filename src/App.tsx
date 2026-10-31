@@ -16,6 +16,7 @@ import {
   freshen,
   short,
   type Browser,
+  type Family,
 } from "@/lib/browsers"
 import logo from "@/assets/logo.png"
 import { cn } from "@/lib/utils"
@@ -194,7 +195,7 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
     return rows
       .filter(
         (r) =>
-          (engine === "all" || r.family === engine) &&
+          (engine === "all" || r.families.includes(engine as Family)) &&
           (!openOnly || r.open) &&
           (!needle || `${r.name} ${r.engine} ${r.license}`.toLowerCase().includes(needle)),
       )
@@ -215,7 +216,7 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
     setSort((s) => (s.key === c.key ? { key: c.key, dir: s.dir === "asc" ? "desc" : "asc" } : { key: c.key, dir: c.first }))
   }
 
-  const engineCount = (f: string) => rows.filter((r) => r.family === f).length
+  const engineCount = (f: string) => rows.filter((r) => r.families.includes(f as Family)).length
 
   return (
     <section className="py-10">

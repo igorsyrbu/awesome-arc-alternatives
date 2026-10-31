@@ -8,7 +8,7 @@ export interface Browser {
   name: string
   site: string
   engine: string
-  family: Family
+  families: Family[] // a mixed-engine browser is listed under Mixed and each of its engines
   license: string
   repo: string
   open: boolean
@@ -26,12 +26,14 @@ function parseLink(cell: string) {
   return m ? { text: m[1], url: m[2] } : { text: cell, url: "" }
 }
 
-function familyOf(engine: string): Family {
-  if (/Chromium/.test(engine) && /WebKit/.test(engine)) return "Mixed"
-  if (/Chromium/.test(engine)) return "Chromium"
-  if (/WebKit/.test(engine)) return "WebKit"
-  if (/Gecko|Firefox/.test(engine)) return "Gecko"
-  return "Other"
+function familiesOf(engine: string): Family[] {
+  const chromium = /Chromium/.test(engine)
+  const webkit = /WebKit/.test(engine)
+  if (chromium && webkit) return ["Mixed", "Chromium", "WebKit"]
+  if (chromium) return ["Chromium"]
+  if (webkit) return ["WebKit"]
+  if (/Gecko|Firefox/.test(engine)) return ["Gecko"]
+  return ["Other"]
 }
 
 export function parse(md: string): Browser[] {
@@ -47,7 +49,7 @@ export function parse(md: string): Browser[] {
       return {
         name: c[0],
         engine: c[1],
-        family: familyOf(c[1]),
+        families: familiesOf(c[1]),
         license: c[2] || "Unknown",
         site: parseLink(c[3] || "").url,
         repo,
