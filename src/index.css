@@ -143,3 +143,10 @@
     animation: pulse-ring 2s infinite;
   }
 }
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

@@ -89,15 +89,15 @@ function Header() {
 
   return (
     <header className="flex items-center justify-between gap-3 py-[18px]">
-      <a href="./" className="flex items-center gap-2.5 font-medium">
+      <a href="./" className="flex min-w-0 items-center gap-2.5 leading-tight font-medium">
         <Logo />
         Awesome Arc Alternatives
       </a>
       <nav className="flex items-center gap-2">
-        <Button variant="outline" asChild className="text-label">
-          <a href={REPO_URL}>
+        <Button variant="outline" asChild className="text-label max-sm:size-9 max-sm:px-0">
+          <a href={REPO_URL} aria-label="GitHub">
             <GitHubIcon />
-            GitHub
+            <span className="max-sm:hidden">GitHub</span>
           </a>
         </Button>
         <Button
@@ -238,7 +238,7 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
           />
         </div>
 
-        <div className="max-w-full overflow-x-auto">
+        <div className="scrollbar-none max-w-full overflow-x-auto">
           <ToggleGroup
             type="single"
             spacing={0.5}
@@ -280,7 +280,7 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
           aria-label="Sort by column"
           className={cn(
             ROW,
-            "sticky top-0 z-10 flex gap-[18px] overflow-x-auto border-b bg-background/88 py-0 backdrop-blur-md md:grid md:items-center md:py-0",
+            "scrollbar-none sticky top-0 z-10 flex gap-[18px] overflow-x-auto border-b bg-background/88 py-0 backdrop-blur-md md:grid md:items-center md:py-0",
           )}
         >
           <span className="self-center text-xs text-faint md:hidden">Sort</span>
@@ -318,36 +318,33 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
 
 function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
   const checking = !loaded && /github\.com/.test(r.repo)
-  const label = "text-faint font-sans md:hidden"
   return (
-    <div className={cn(ROW, "items-start border-b hover:bg-muted md:items-center")}>
-      <div className="col-span-full md:col-span-1">
+    <div className={cn(ROW, "items-baseline border-b hover:bg-muted md:items-center")}>
+      <div className="col-start-1 min-w-0">
         <span className="font-semibold tracking-[-0.01em]">{r.name}</span>
       </div>
 
-      <div className="col-start-1 text-sm text-muted-foreground md:col-start-auto">
-        <span className={label}>Engine · </span>
-        {r.engine}
-      </div>
+      {/* Phones: engine, license and stars share one line under the name. */}
+      <div className="col-span-full row-start-2 flex flex-wrap gap-x-3 gap-y-0.5 md:contents">
+        <div className="text-sm text-muted-foreground">{r.engine}</div>
 
-      <div className="col-start-1 font-mono text-[13px] text-muted-foreground md:col-start-auto">
-        <span className={label}>License · </span>
-        {r.license}
+        <div className="font-mono text-[13px] text-muted-foreground">{r.license}</div>
+
+        <div
+          className={cn(
+            "font-mono text-[13px] whitespace-nowrap text-muted-foreground tabular-nums",
+            r.stars == null && "hidden md:block",
+          )}
+          title={r.stars != null ? `${r.stars.toLocaleString()} GitHub stars` : undefined}
+        >
+          {r.stars == null ? "–" : `★ ${short(r.stars)}`}
+        </div>
       </div>
 
       <div
-        className={cn(
-          "col-start-1 font-mono text-[13px] whitespace-nowrap text-muted-foreground tabular-nums md:col-start-auto",
-          r.stars == null && "hidden md:block",
-        )}
-        title={r.stars != null ? `${r.stars.toLocaleString()} GitHub stars` : undefined}
+        className="col-start-2 row-start-1 text-right text-[13px] text-muted-foreground md:col-start-auto md:row-start-auto md:text-left md:text-sm md:text-foreground"
+        title={r.date || undefined}
       >
-        <span className={label}>Stars · </span>
-        {r.stars == null ? "–" : `★ ${short(r.stars)}`}
-      </div>
-
-      <div className="col-span-full text-sm md:col-span-1" title={r.date || undefined}>
-        <span className={label}>Updated · </span>
         {checking ? (
           <span className="text-muted-foreground">Checking…</span>
         ) : r.date ? (
@@ -357,7 +354,7 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
         )}
       </div>
 
-      <div className="col-span-full flex gap-1.5 md:col-span-1 md:justify-end">
+      <div className="col-span-full row-start-3 mt-1 flex gap-1.5 md:col-span-1 md:row-start-auto md:mt-0 md:justify-end">
         {r.site && <LinkButton href={r.site}>Website ↗</LinkButton>}
         {r.repo && <LinkButton href={r.repo}>{/github\.com/.test(r.repo) ? "GitHub ↗" : "Code ↗"}</LinkButton>}
       </div>
