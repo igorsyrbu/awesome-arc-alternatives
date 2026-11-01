@@ -9,6 +9,7 @@ import {
   BROWSERS,
   ENGINES,
   NOW,
+  OSES,
   REPO_URL,
   ago,
   daysSince,
@@ -17,6 +18,7 @@ import {
   short,
   type Browser,
   type Family,
+  type OS,
 } from "@/lib/browsers"
 import logo from "@/assets/logo.png"
 import { cn } from "@/lib/utils"
@@ -30,9 +32,10 @@ const COLUMNS: { key: SortKey; label: string; first: "asc" | "desc" }[] = [
   { key: "date", label: "Last updated", first: "desc" },
 ]
 
-// Desktop: six columns. Phones: one column with small labels.
+// Desktop: six columns, two lines in the first one (name + platforms). Phones: one
+// column with small labels.
 const ROW =
-  "grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 px-1 py-4 md:grid-cols-[minmax(0,1fr)_minmax(0,1.5fr)_minmax(0,1fr)_80px_minmax(0,1fr)_176px] md:gap-4 md:px-2 md:py-3.5"
+  "grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 px-1 py-4 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1.25fr)_minmax(0,0.8fr)_76px_minmax(0,0.9fr)_168px] md:grid-rows-[auto_auto] md:gap-x-4 md:gap-y-0 md:px-2 md:py-3.5"
 
 const ARC_END = new Date(2026, 11, 22)
 const TIMELINE = [
@@ -186,6 +189,7 @@ function Hero({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
 function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
   const [q, setQ] = useState("")
   const [engine, setEngine] = useState("all")
+  const [platform, setPlatform] = useState("all")
   const [openOnly, setOpenOnly] = useState(false)
   const [sort, setSort] = useState<{ key: SortKey; dir: "asc" | "desc" }>({ key: "name", dir: "asc" })
 
@@ -196,8 +200,9 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
       .filter(
         (r) =>
           (engine === "all" || r.families.includes(engine as Family)) &&
+          (platform === "all" || r.platforms.includes(platform as OS)) &&
           (!openOnly || r.open) &&
-          (!needle || `${r.name} ${r.engine} ${r.license}`.toLowerCase().includes(needle)),
+          (!needle || `${r.name} ${r.engine} ${r.license} ${r.platforms.join(" ")}`.toLowerCase().includes(needle)),
       )
       .sort((a, b) => {
         const x = a[sort.key]
@@ -210,69 +215,70 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
         }
         return a.name.localeCompare(b.name)
       })
-  }, [rows, q, engine, openOnly, sort])
+  }, [rows, q, engine, platform, openOnly, sort])
 
   function sortBy(c: (typeof COLUMNS)[number]) {
     setSort((s) => (s.key === c.key ? { key: c.key, dir: s.dir === "asc" ? "desc" : "asc" } : { key: c.key, dir: c.first }))
   }
 
   const engineCount = (f: string) => rows.filter((r) => r.families.includes(f as Family)).length
+  const platformCount = (os: string) => rows.filter((r) => r.platforms.includes(os as OS)).length
 
   return (
     <section className="py-10">
       <h2 className="mb-1.5 text-[22px] font-semibold tracking-tight">Browsers</h2>
-      <p className="mb-5 text-sm text-muted-foreground">
-        Last updated is the latest push to the project's GitHub repo. Browsers without a public GitHub repo show no
-        data.
+      <p className="mb-5 max-w-[78ch] text-sm text-muted-foreground">
+        Last updated is the latest GitHub push; “no data” means there is no public repo. Platforms show where a
+        browser has a public build.
       </p>
 
-      <div className="mb-3.5 flex flex-wrap items-center gap-2.5" role="group" aria-label="Filters">
-        <div className="relative min-w-0 flex-[1_1_220px]">
-          <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
-          <Input
-            type="search"
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            placeholder="Search browsers, engines, licenses"
-            aria-label="Search"
-            className="bg-card pl-9 placeholder:text-muted-foreground"
-          />
-        </div>
+      <div className="mb-4 flex flex-col gap-2.5" role="group" aria-label="Filters">
+        <div className="flex flex-wrap items-center gap-2.5">
+          <div className="relative min-w-0 flex-[1_1_220px]">
+            <Search className="pointer-events-none absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
+            <Input
+              type="search"
+              value={q}
+              onChange={(e) => setQ(e.target.value)}
+              placeholder="Search browsers"
+              aria-label="Search browsers, engines, platforms"
+              className="bg-card pl-9 placeholder:text-muted-foreground"
+            />
+          </div>
 
-        <div className="scrollbar-none max-w-full overflow-x-auto">
-          <ToggleGroup
-            type="single"
-            spacing={0.5}
-            value={engine}
-            onValueChange={(v) => v && setEngine(v)}
-            aria-label="Engine"
-            className="rounded-[10px] border border-input bg-card p-[3px]"
+          <Toggle
+            variant="outline"
+            pressed={openOnly}
+            onPressedChange={setOpenOnly}
+            className="bg-card px-3 text-label data-[state=on]:text-foreground"
           >
-            {["all", ...ENGINES]
-              .filter((f) => f === "all" || engineCount(f) > 0)
-              .map((f) => (
-                <ToggleGroupItem
-                  key={f}
-                  value={f}
-                  className="h-7 gap-1.5 rounded-[7px] px-2.5 font-normal text-label hover:bg-muted hover:text-foreground data-[state=on]:bg-accent data-[state=on]:font-medium data-[state=on]:text-foreground"
-                >
-                  {f === "all" ? "All" : f}
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {f === "all" ? rows.length : engineCount(f)}
-                  </span>
-                </ToggleGroupItem>
-              ))}
-          </ToggleGroup>
+            Open source
+          </Toggle>
         </div>
 
-        <Toggle
-          variant="outline"
-          pressed={openOnly}
-          onPressedChange={setOpenOnly}
-          className="bg-card px-3 text-label data-[state=on]:text-foreground"
-        >
-          Open source
-        </Toggle>
+        <FilterGroup
+          label="Engine"
+          value={engine}
+          onChange={setEngine}
+          options={[
+            { value: "all", label: "All", count: rows.length },
+            ...ENGINES.filter((f) => engineCount(f) > 0).map((f) => ({ value: f, label: f, count: engineCount(f) })),
+          ]}
+        />
+
+        <FilterGroup
+          label="Platform"
+          value={platform}
+          onChange={setPlatform}
+          options={[
+            { value: "all", label: "All", count: rows.length },
+            ...OSES.filter((os) => platformCount(os) > 0).map((os) => ({
+              value: os,
+              label: os,
+              count: platformCount(os),
+            })),
+          ]}
+        />
       </div>
 
       <div className="border-t" aria-live="polite">
@@ -317,23 +323,82 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
   )
 }
 
+function FilterGroup({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string
+  value: string
+  onChange: (value: string) => void
+  options: { value: string; label: string; count: number }[]
+}) {
+  return (
+    <div className="flex min-w-0 items-center gap-2.5">
+      <span className="w-14 flex-none text-[10px] font-medium tracking-[0.07em] text-muted-foreground uppercase">
+        {label}
+      </span>
+      <div className="scrollbar-none min-w-0 flex-1 overflow-x-auto">
+        <ToggleGroup
+          type="single"
+          spacing={0.5}
+          value={value}
+          onValueChange={(v) => v && onChange(v)}
+          aria-label={label}
+          className="w-max rounded-[10px] border border-input bg-card p-[3px]"
+        >
+          {options.map((o) => (
+            <ToggleGroupItem
+              key={o.value}
+              value={o.value}
+              className="h-7 gap-1.5 rounded-[7px] px-2.5 font-normal text-label hover:bg-muted hover:text-foreground data-[state=on]:bg-accent data-[state=on]:font-medium data-[state=on]:text-foreground"
+            >
+              {o.label}
+              <span className="font-mono text-xs text-muted-foreground">{o.count}</span>
+            </ToggleGroupItem>
+          ))}
+        </ToggleGroup>
+      </div>
+    </div>
+  )
+}
+
 function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
   const checking = !loaded && /github\.com/.test(r.repo)
   return (
-    <div className={cn(ROW, "items-baseline border-b hover:bg-muted md:items-center")}>
-      <div className="col-start-1 min-w-0">
+    <div className={cn(ROW, "border-b hover:bg-muted md:items-center")}>
+      <div className="col-start-1 row-start-1 min-w-0">
         <span className="font-semibold tracking-[-0.01em]">{r.name}</span>
       </div>
 
-      {/* Phones: engine, license and stars share one line under the name. */}
-      <div className="col-span-full row-start-2 flex flex-wrap gap-x-3 gap-y-0.5 md:contents">
-        <div className="text-sm text-muted-foreground">{r.engine}</div>
+      <div
+        className="col-span-full row-start-2 min-w-0 text-xs text-muted-foreground md:col-span-1 md:col-start-1 md:row-start-2 md:mt-0.5"
+      >
+        {r.platforms.length ? (
+          <ul className="flex flex-wrap gap-x-1.5">
+            {r.platforms.map((os) => (
+              <li key={os} className="whitespace-nowrap not-last:after:ml-1.5 not-last:after:content-['·']">
+                {os}
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <span className="text-faint">—</span>
+        )}
+      </div>
 
-        <div className="font-mono text-[13px] text-muted-foreground">{r.license}</div>
+      {/* Phones: engine, license and stars share one line under the platforms. */}
+      <div className="col-span-full row-start-3 flex flex-wrap gap-x-3 gap-y-0.5 md:contents">
+        <div className="text-sm text-muted-foreground md:col-start-2 md:row-span-2 md:row-start-1">{r.engine}</div>
+
+        <div className="font-mono text-[13px] text-muted-foreground md:col-start-3 md:row-span-2 md:row-start-1">
+          {r.license}
+        </div>
 
         <div
           className={cn(
-            "font-mono text-[13px] whitespace-nowrap text-muted-foreground tabular-nums",
+            "font-mono text-[13px] whitespace-nowrap text-muted-foreground tabular-nums md:col-start-4 md:row-span-2 md:row-start-1",
             r.stars == null && "hidden md:block",
           )}
           title={r.stars != null ? `${r.stars.toLocaleString()} GitHub stars` : undefined}
@@ -343,7 +408,7 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
       </div>
 
       <div
-        className="col-start-2 row-start-1 text-right text-[13px] text-muted-foreground md:col-start-auto md:row-start-auto md:text-left md:text-sm md:text-foreground"
+        className="col-start-2 row-start-1 text-right text-[13px] text-muted-foreground md:col-start-5 md:row-span-2 md:row-start-1 md:text-left md:text-sm md:text-foreground"
         title={r.date || undefined}
       >
         {checking ? (
@@ -355,7 +420,7 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
         )}
       </div>
 
-      <div className="col-span-full row-start-3 mt-1 flex gap-1.5 md:col-span-1 md:row-start-auto md:mt-0 md:justify-end">
+      <div className="col-span-full row-start-4 mt-1 flex gap-1.5 md:col-span-1 md:col-start-6 md:row-span-2 md:row-start-1 md:mt-0 md:justify-end">
         {r.site && <LinkButton href={r.site}>Website ↗</LinkButton>}
         {r.repo && <LinkButton href={r.repo}>{/github\.com/.test(r.repo) ? "GitHub ↗" : "Code ↗"}</LinkButton>}
       </div>

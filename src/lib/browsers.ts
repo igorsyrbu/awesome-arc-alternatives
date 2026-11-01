@@ -3,12 +3,14 @@
 import readme from "../../README.md?raw"
 
 export type Family = "Chromium" | "WebKit" | "Gecko" | "Mixed" | "Other"
+export type OS = "Windows" | "macOS" | "Linux" | "iOS" | "Android"
 
 export interface Browser {
   name: string
   site: string
   engine: string
   families: Family[] // a mixed-engine browser is listed under Mixed and each of its engines
+  platforms: OS[] // one browser can run on several operating systems
   license: string
   repo: string
   open: boolean
@@ -17,6 +19,7 @@ export interface Browser {
 }
 
 export const ENGINES: Family[] = ["Chromium", "WebKit", "Gecko", "Mixed", "Other"]
+export const OSES: OS[] = ["macOS", "Windows", "Linux", "iOS", "Android"] // display order
 
 const DAY = 86_400_000
 export const NOW = Date.now()
@@ -36,28 +39,44 @@ function familiesOf(engine: string): Family[] {
   return ["Other"]
 }
 
+function platformsOf(cell: string, browser: string): OS[] {
+  const found = new Set<OS>()
+  for (const part of cell.split(",").map((p) => p.trim()).filter((p) => p && p !== "—")) {
+    if (OSES.includes(part as OS)) found.add(part as OS)
+    else console.warn(`${browser}: unknown platform "${part}" in README`)
+  }
+  return OSES.filter((os) => found.has(os))
+}
+
 export function parse(md: string): Browser[] {
   const block = md.split("<!-- list:start -->")[1].split("<!-- list:end -->")[0]
-  return block
-    .split("\n")
-    .filter((l) => l.trim().startsWith("|"))
-    .slice(2) // header + separator
-    .map((line) => {
-      const c = line.trim().replace(/^\||\|$/g, "").split("|").map((s) => s.trim())
-      // Columns: Browser | Engine | License | Website | GitHub
-      const repo = parseLink(c[4] || "").url
-      return {
-        name: c[0],
-        engine: c[1],
-        families: familiesOf(c[1]),
-        license: c[2] || "Unknown",
-        site: parseLink(c[3] || "").url,
-        repo,
-        open: /^https:\/\/github\.com\//.test(repo), // open source = has a GitHub repo link
-        date: "", // filled in live from GitHub
-        stars: null, // filled in live from GitHub
-      }
-    })
+  const cells = (line: string) => line.trim().replace(/^\||\|$/g, "").split("|").map((s) => s.trim())
+  const [header, , ...lines] = block.split("\n").filter((l) => l.trim().startsWith("|"))
+  // Find columns by header name, so a reordered or missing column fails loudly.
+  const names = cells(header)
+  const col = (name: string) => {
+    const i = names.indexOf(name)
+    if (i < 0) throw new Error(`README table has no "${name}" column`)
+    return i
+  }
+  const [iName, iEngine, iPlatforms, iLicense, iSite, iRepo] = ["Browser", "Engine", "Platforms", "License", "Website", "GitHub"].map(col)
+
+  return lines.map((line) => {
+    const c = cells(line)
+    const repo = parseLink(c[iRepo] || "").url
+    return {
+      name: c[iName],
+      engine: c[iEngine],
+      families: familiesOf(c[iEngine]),
+      platforms: platformsOf(c[iPlatforms] || "", c[iName]),
+      license: c[iLicense] || "Unknown",
+      site: parseLink(c[iSite] || "").url,
+      repo,
+      open: /^https:\/\/github\.com\//.test(repo), // open source = has a GitHub repo link
+      date: "", // filled in live from GitHub
+      stars: null, // filled in live from GitHub
+    }
+  })
 }
 
 export const BROWSERS = parse(readme)
