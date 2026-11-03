@@ -51,6 +51,7 @@ Sorted by name. The Platforms column lists where each browser has a public build
 | Surf | Chromium (Electron, likely) | Windows, macOS, Linux | Apache-2.0 | [deta.surf](https://deta.surf/) | [deta/surf](https://github.com/deta/surf) |
 | Tangent | Chromium (de-Googled fork) | — | Unknown | [tangent.place](https://tangent.place/) | — |
 | Vane | WebKit | macOS | MIT | [notnaki.github.io/vane](https://notnaki.github.io/vane/) | [notnaki/vane](https://github.com/notnaki/vane) |
+| Viola | Chromium | Windows, macOS, Linux, Android | Unknown | [violabrowser.com](https://violabrowser.com/) | — |
 | Xelium | Chromium (fork) | macOS | GPL-3.0 | — | [minervanet/xelium-macos](https://github.com/minervanet/xelium-macos) |
 | Yab | WebKit | macOS, iOS, Android | Closed | [yetanotherbrowser.com](https://yetanotherbrowser.com/) | — |
 | Yalqen | Chromium (Electron) | macOS | MIT | [yalqen.com](https://yalqen.com/) | [YSamed/yalqen](https://github.com/YSamed/yalqen) |
