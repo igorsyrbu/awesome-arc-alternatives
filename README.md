@@ -24,7 +24,7 @@ Sorted by name. The Platforms column lists where each browser has a public build
 | Browser | Engine | Platforms | License | Website | GitHub |
 | --- | --- | --- | --- | --- | --- |
 | Arcium | Chromium | macOS | GPL-3.0 | — | [dr-baker/Arcium-macOS](https://github.com/dr-baker/Arcium-macOS) |
-| Ardia | Chromium | macOS | GPL-3.0 | [ardia.dev](https://ardia.dev/) | [mantrakp04/ardia](https://github.com/mantrakp04/ardia) |
+| Ardia | Chromium + WebKit | macOS | GPL-3.0 | [ardia.dev](https://ardia.dev/) | [mantrakp04/ardia](https://github.com/mantrakp04/ardia) |
 | Argus | WebKit (unconfirmed) | — | Closed | [argusbrowser.io](https://argusbrowser.io/) | — |
 | Aside | Chromium (likely) | Windows, macOS | Closed | [aside.com](https://aside.com/) | — |
 | Aura | WebKit | iOS | MPL-2.0 | — | [doorhinge-apps/Aura-Browser](https://github.com/doorhinge-apps/Aura-Browser) |
