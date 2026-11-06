@@ -23,6 +23,7 @@ Sorted by name. The Platforms column lists where each browser has a public build
 <!-- list:start -->
 | Browser | Engine | Platforms | License | Website | GitHub |
 | --- | --- | --- | --- | --- | --- |
+| Arc Reborn | Chromium (CEF) | macOS | MPL-2.0 | [arc-reborn.com](https://www.arc-reborn.com/) | [tiff75009/arcreborn](https://github.com/tiff75009/arcreborn) |
 | Arcium | Chromium | macOS | GPL-3.0 | — | [dr-baker/Arcium-macOS](https://github.com/dr-baker/Arcium-macOS) |
 | Ardia | Chromium + WebKit | macOS | GPL-3.0 | [ardia.dev](https://ardia.dev/) | [mantrakp04/ardia](https://github.com/mantrakp04/ardia) |
 | Argus | WebKit (unconfirmed) | — | Closed | [argusbrowser.io](https://argusbrowser.io/) | — |
