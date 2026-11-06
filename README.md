@@ -30,6 +30,7 @@ Sorted by name. The Platforms column lists where each browser has a public build
 | Aside | Chromium (likely) | Windows, macOS | Closed | [aside.com](https://aside.com/) | — |
 | Aura | WebKit | iOS | MPL-2.0 | — | [doorhinge-apps/Aura-Browser](https://github.com/doorhinge-apps/Aura-Browser) |
 | Blanc | Chromium (Electron) | Windows, macOS, Linux, iOS | MIT | [blanc.day](https://blanc.day/) | [bnfy/blanc](https://github.com/bnfy/blanc) |
+| camber | Chromium (Electron) | Windows, macOS, Linux | GPL-3.0 | [yuvrajangadsingh.com/camber](https://www.yuvrajangadsingh.com/camber) | [yuvrajangadsingh/camber](https://github.com/yuvrajangadsingh/camber) |
 | Click | WebKit | macOS | Unknown | [clickbrowser.app](https://clickbrowser.app/) | — |
 | Cra | Chromium (CEF) | macOS | MIT | [crabrowser.app](https://crabrowser.app/) | [VictorKildahl/cra](https://github.com/VictorKildahl/cra) |
 | Crest | Chromium + WebKit | macOS, iOS | MPL-2.0 | [crestbrowser.com](https://crestbrowser.com/) | [pauljoda/Crest](https://github.com/pauljoda/Crest) |
