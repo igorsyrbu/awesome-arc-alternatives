@@ -39,6 +39,7 @@ Sorted by name. The Platforms column lists where each browser has a public build
 | Firn | Chromium (Electron) | macOS | MPL-2.0 | [firnbrowser.com](https://firnbrowser.com/) | [dwurgy/firn](https://github.com/dwurgy/firn) |
 | Flecha | Chromium (fork) | macOS | MIT | [flecha.dev](https://flecha.dev/) | [lucianodiisouza/flecha-browser](https://github.com/lucianodiisouza/flecha-browser) |
 | Flow | Chromium (Electron) | Windows, macOS, Linux | GPL-3.0 | [flow-browser.com](https://flow-browser.com/) | [MultiboxLabs/flow-browser](https://github.com/MultiboxLabs/flow-browser) |
+| Halo | Chromium (fork) | macOS | Closed | [oxyism.com](https://oxyism.com/) | — |
 | Helium | Chromium | Windows, macOS, Linux | GPL-3.0 | [helium.computer](https://helium.computer/) | [imputnet/helium](https://github.com/imputnet/helium) |
 | Mise | Chromium (Electron) | Windows, macOS, Linux | GPL-3.0 | [rakosn1cek.github.io/Mise-browser](https://rakosn1cek.github.io/Mise-browser) | [Mise-Browser](https://github.com/Rakosn1cek/Mise-browser) |
 | Nook | WebKit | macOS | GPL-3.0 | [browsewithnook.com](https://browsewithnook.com/) | [nook-browser/Nook](https://github.com/nook-browser/Nook) |
