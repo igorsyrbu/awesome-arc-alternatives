@@ -15,6 +15,7 @@ export interface Browser {
   repo: string
   open: boolean
   date: string
+  created: string // repo creation date, YYYY-MM-DD
   stars: number | null
 }
 
@@ -74,6 +75,7 @@ export function parse(md: string): Browser[] {
       repo,
       open: /^https:\/\/github\.com\//.test(repo), // open source = has a GitHub repo link
       date: "", // filled in live from GitHub
+      created: "", // filled in live from GitHub
       stars: null, // filled in live from GitHub
     }
   })
@@ -104,11 +106,12 @@ export function daysUntil(date: Date) {
   return Math.ceil((date.getTime() - NOW) / DAY)
 }
 
-// For GitHub repos, read stars and the latest push date ("Last updated").
-// Browsers without a public GitHub repo have no date. Cached for 6 hours to stay
+// For GitHub repos, read stars, the latest push date ("Last updated") and the repo
+// creation date ("First created"), all from the same single request per repo.
+// Browsers without a public GitHub repo have no dates. Cached for 6 hours to stay
 // well under GitHub's anonymous rate limit of 60 requests per hour.
-type Cache = { t: number; d: Record<string, { p: string; s: number }> }
-const KEY = "gh-repos-v2"
+type Cache = { t: number; d: Record<string, { p: string; c: string; s: number }> }
+const KEY = "gh-repos-v3"
 
 export async function freshen(rows: Browser[]): Promise<Browser[]> {
   let cache: Cache = { t: NOW, d: {} }
@@ -129,7 +132,7 @@ export async function freshen(rows: Browser[]): Promise<Browser[]> {
           const res = await fetch(`https://api.github.com/repos/${slug}`)
           if (!res.ok) return r
           const j = await res.json()
-          v = { p: (j.pushed_at || "").slice(0, 10), s: j.stargazers_count }
+          v = { p: (j.pushed_at || "").slice(0, 10), c: (j.created_at || "").slice(0, 10), s: j.stargazers_count }
           cache.d[slug] = v // failures are not cached, so they retry next visit
         } catch {
           return r
@@ -138,6 +141,7 @@ export async function freshen(rows: Browser[]): Promise<Browser[]> {
       return {
         ...r,
         date: v.p || r.date,
+        created: v.c || r.created,
         stars: typeof v.s === "number" ? v.s : r.stars,
       }
     }),

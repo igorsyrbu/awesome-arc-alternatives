@@ -23,19 +23,20 @@ import {
 import logo from "@/assets/logo.png"
 import { cn } from "@/lib/utils"
 
-type SortKey = "name" | "engine" | "license" | "stars" | "date"
+type SortKey = "name" | "engine" | "license" | "stars" | "date" | "created"
 const COLUMNS: { key: SortKey; label: string; first: "asc" | "desc" }[] = [
   { key: "name", label: "Browser", first: "asc" },
   { key: "engine", label: "Engine", first: "asc" },
   { key: "license", label: "License", first: "asc" },
   { key: "stars", label: "Stars", first: "desc" },
   { key: "date", label: "Last updated", first: "desc" },
+  { key: "created", label: "Created", first: "desc" },
 ]
 
-// Desktop: six columns, two lines in the first one (name + platforms). Phones: one
+// Desktop: seven columns, two lines in the first one (name + platforms). Phones: one
 // column with small labels.
 const ROW =
-  "grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 px-1 py-4 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1.25fr)_minmax(0,0.8fr)_76px_minmax(0,0.9fr)_168px] md:grid-rows-[auto_auto] md:gap-x-4 md:gap-y-0 md:px-2 md:py-3.5"
+  "grid grid-cols-[1fr_auto] gap-x-3 gap-y-1.5 px-1 py-4 md:grid-cols-[minmax(0,1.25fr)_minmax(0,1.1fr)_minmax(0,0.8fr)_76px_minmax(0,0.9fr)_minmax(0,0.9fr)_168px] md:grid-rows-[auto_auto] md:gap-x-4 md:gap-y-0 md:px-2 md:py-3.5"
 
 const ARC_END = new Date(2026, 11, 22)
 const TIMELINE = [
@@ -228,8 +229,8 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
     <section className="py-10">
       <h2 className="mb-1.5 text-[22px] font-semibold tracking-tight">Browsers</h2>
       <p className="mb-5 max-w-[78ch] text-sm text-muted-foreground">
-        Last updated is the latest GitHub push; “no data” means there is no public repo. Platforms show where a
-        browser has a public build.
+        Last updated is the latest GitHub push and Created is when the repo was made, so sort by it to spot
+        newcomers; “no data” means there is no public repo. Platforms show where a browser has a public build.
       </p>
 
       <div className="mb-4 flex flex-col gap-2.5" role="group" aria-label="Filters">
@@ -405,6 +406,25 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
         >
           {r.stars == null ? "–" : `★ ${short(r.stars)}`}
         </div>
+
+        <div
+          className={cn(
+            "text-sm text-muted-foreground md:col-start-6 md:row-span-2 md:row-start-1 md:text-foreground",
+            !checking && !r.created && "hidden md:block",
+          )}
+          title={r.created || undefined}
+        >
+          {checking ? (
+            <span className="text-muted-foreground">Checking…</span>
+          ) : r.created ? (
+            <>
+              <span className="md:hidden">Created </span>
+              {ago(r.created)}
+            </>
+          ) : (
+            <span className="text-faint">no data</span>
+          )}
+        </div>
       </div>
 
       <div
@@ -420,7 +440,7 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
         )}
       </div>
 
-      <div className="col-span-full row-start-4 mt-1 flex gap-1.5 md:col-span-1 md:col-start-6 md:row-span-2 md:row-start-1 md:mt-0 md:justify-end">
+      <div className="col-span-full row-start-4 mt-1 flex gap-1.5 md:col-span-1 md:col-start-7 md:row-span-2 md:row-start-1 md:mt-0 md:justify-end">
         {r.site && <LinkButton href={r.site}>Website ↗</LinkButton>}
         {r.repo && <LinkButton href={r.repo}>{/github\.com/.test(r.repo) ? "GitHub ↗" : "Code ↗"}</LinkButton>}
       </div>
