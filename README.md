@@ -48,6 +48,7 @@ Sorted by name. The Platforms column lists where each browser has a public build
 | Ortix | WebKit | macOS | Closed | [systembionic.com/ortix](https://systembionic.com/ortix) | — |
 | Phi | Chromium | Windows, macOS | Apache-2.0 | [phibrowser.com](https://phibrowser.com/) | [phibrowser/phibrowser-mac](https://github.com/phibrowser/phibrowser-mac) |
 | Polar | Chromium (fork) | Windows, macOS | Unknown | [polarbrowser.com](https://polarbrowser.com/) | — |
+| ReArc | Chromium (fork) | macOS | Apache-2.0 | [rearc.imara.ae](https://rearc.imara.ae/) | [judioo/rearc](https://github.com/judioo/rearc) |
 | Sailfish | Chromium | macOS | Apache-2.0 | [sail.fish](https://www.sail.fish/) | [SailfishBrowser/macOS](https://github.com/SailfishBrowser/macOS) |
 | Search | WebKit | macOS | MIT | [officecommun.com/search](https://officecommun.com/search) | [driceroland/Search](https://github.com/driceroland/Search) |
 | SigmaOS | WebKit | macOS | Closed | [sigmaos.com](https://sigmaos.com/) | — |
