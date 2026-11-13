@@ -29,8 +29,8 @@ const COLUMNS: { key: SortKey; label: string; first: "asc" | "desc" }[] = [
   { key: "engine", label: "Engine", first: "asc" },
   { key: "license", label: "License", first: "asc" },
   { key: "stars", label: "Stars", first: "desc" },
-  { key: "date", label: "Last updated", first: "desc" },
   { key: "created", label: "Created", first: "desc" },
+  { key: "date", label: "Updated", first: "desc" },
 ]
 
 // Desktop: seven columns, two lines in the first one (name + platforms). Phones: one
@@ -229,8 +229,8 @@ function BrowserList({ rows, loaded }: { rows: Browser[]; loaded: boolean }) {
     <section className="py-10">
       <h2 className="mb-1.5 text-[22px] font-semibold tracking-tight">Browsers</h2>
       <p className="mb-5 max-w-[78ch] text-sm text-muted-foreground">
-        Last updated is the latest GitHub push and Created is when the repo was made, so sort by it to spot
-        newcomers; “no data” means there is no public repo. Platforms show where a browser has a public build.
+        Created is when the repo was made, so sort by it to spot newcomers. Updated is the latest GitHub
+        push; “no data” means there is no public repo. Platforms show where a browser has a public build.
       </p>
 
       <div className="mb-4 flex flex-col gap-2.5" role="group" aria-label="Filters">
@@ -409,7 +409,7 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
 
         <div
           className={cn(
-            "text-sm text-muted-foreground md:col-start-6 md:row-span-2 md:row-start-1 md:text-foreground",
+            "text-sm text-muted-foreground md:col-start-5 md:row-span-2 md:row-start-1 md:text-foreground",
             !checking && !r.created && "hidden md:block",
           )}
           title={r.created || undefined}
@@ -428,7 +428,7 @@ function Row({ r, loaded }: { r: Browser; loaded: boolean }) {
       </div>
 
       <div
-        className="col-start-2 row-start-1 text-right text-[13px] text-muted-foreground md:col-start-5 md:row-span-2 md:row-start-1 md:text-left md:text-sm md:text-foreground"
+        className="col-start-2 row-start-1 text-right text-[13px] text-muted-foreground md:col-start-6 md:row-span-2 md:row-start-1 md:text-left md:text-sm md:text-foreground"
         title={r.date || undefined}
       >
         {checking ? (

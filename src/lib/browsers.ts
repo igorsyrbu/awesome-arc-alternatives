@@ -106,7 +106,7 @@ export function daysUntil(date: Date) {
   return Math.ceil((date.getTime() - NOW) / DAY)
 }
 
-// For GitHub repos, read stars, the latest push date ("Last updated") and the repo
+// For GitHub repos, read stars, the latest push date ("Updated") and the repo
 // creation date ("First created"), all from the same single request per repo.
 // Browsers without a public GitHub repo have no dates. Cached for 6 hours to stay
 // well under GitHub's anonymous rate limit of 60 requests per hour.
