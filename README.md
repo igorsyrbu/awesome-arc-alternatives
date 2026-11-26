@@ -73,7 +73,7 @@ Sorted by name. The Platforms column lists where each browser runs or is announc
 | Wren | Chromium | macOS | MPL-2.0 | [wrenbrowser.com](https://wrenbrowser.com/) | [MultiboxLabs/wren-browser](https://github.com/MultiboxLabs/wren-browser) |
 | Xelium | Chromium (fork) | macOS | GPL-3.0 | — | [minervanet/xelium-macos](https://github.com/minervanet/xelium-macos) |
 | Yab | WebKit + Chromium | macOS, iOS, Android | Apache-2.0 | [yetanotherbrowser.com](https://yetanotherbrowser.com/) | [yetanotherbrowser/yab](https://github.com/yetanotherbrowser/yab) |
-| Yalqen | Chromium (Electron) | macOS | MIT | [yalqen.com](https://yalqen.com/) | [YSamed/yalqen](https://github.com/YSamed/yalqen) |
+| Yalqen | Chromium (Electron) | macOS, Windows | MIT | [yalqen.com](https://yalqen.com/) | [YSamed/yalqen](https://github.com/YSamed/yalqen) |
 | YARC | Chromium (Electron) | Windows, macOS, Linux | GPL-3.0 | [yenebeb.nl/yarc](https://yenebeb.nl/yarc) | [yenebeb/yarc](https://github.com/yenebeb/yarc) |
 | Zen | Firefox (Gecko) | Windows, macOS, Linux | MPL-2.0 | [zen-browser.app](https://zen-browser.app/) | [zen-browser/desktop](https://github.com/zen-browser/desktop) |
 | Zephium | WebKit (macOS) + Chromium (Windows) | Windows, macOS | MPL-2.0 | [zephium.app](https://zephium.app) | [zephium-browser/Zephium](https://github.com/zephium-browser/Zephium) |
